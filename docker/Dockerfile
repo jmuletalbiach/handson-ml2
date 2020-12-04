@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 FROM continuumio/miniconda3:latest
+=======
+FROM continuumio/anaconda3:2019.03
+>>>>>>> upstream/master
 
 RUN apt-get update && apt-get upgrade -y \
     && apt-get install -y \
@@ -6,6 +10,7 @@ RUN apt-get update && apt-get upgrade -y \
         build-essential \
         git \
         sudo \
+<<<<<<< HEAD
         cmake zlib1g-dev libjpeg-dev xvfb ffmpeg xorg-dev libboost-all-dev libsdl2-dev swig \
         unzip zip \
     && rm -rf /var/lib/apt/lists/*
@@ -16,6 +21,36 @@ RUN conda update -y -n base conda \
     && conda env create -f /tmp/environment.yml \
     && conda clean -y -t \
     && rm /tmp/environment.yml
+=======
+        cmake zlib1g-dev libjpeg-dev xvfb libav-tools xorg-dev libboost-all-dev libsdl2-dev swig \
+        unzip zip \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN conda update -n base conda
+
+RUN conda install -y joblib         
+
+RUN conda install -y -c conda-forge \
+        tensorflow \
+        pyopengl \
+        xgboost \
+        nbdime
+
+RUN pip install PyQt5==5.12
+RUN conda uninstall -y PyYAML
+RUN pip install --ignore-installed  PyYAML==3.13
+RUN pip install setuptools==41.0.0
+
+RUN pip install "gym[atari,box2d,classic_control]"
+RUN pip install "urlextract"
+RUN pip install "tensorflow-hub"
+RUN pip install "tensorflow-serving-api"
+RUN pip install "tfx"
+#RUN pip install "tensorflow-addons"
+#RUN pip install "tf-agents-nightly"
+RUN pip install "tensorflow-datasets"
+RUN pip install "tensorflow-probability"
+>>>>>>> upstream/master
 
 ARG username
 ARG userid
@@ -33,11 +68,17 @@ RUN chown ${username}:${username} ${workdir}
 USER ${username}
 WORKDIR ${workdir}
 
+<<<<<<< HEAD
 ENV PATH /opt/conda/envs/tf2/bin:$PATH
 
 # The config below enables diffing notebooks with nbdiff (and nbdiff support
 # in git diff command) after connecting to the container by "make exec" (or
 # "docker-compose exec handson-ml2 bash")
+=======
+# The config below enables diffing notebooks with nbdiff (and nbdiff support
+# in git diff command) after connecting to the container by "make exec" (or
+# "docker-compose exec handson-ml bash")
+>>>>>>> upstream/master
 #       You may also try running:
 #         nbdiff NOTEBOOK_NAME.ipynb
 #       to get nbdiff between checkpointed version and current version of the
